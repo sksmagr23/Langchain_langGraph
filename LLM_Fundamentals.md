@@ -1,4 +1,4 @@
-# LLM Fundamentals — Simplified Notes
+# LLM Fundamentals
 
 ---
 
