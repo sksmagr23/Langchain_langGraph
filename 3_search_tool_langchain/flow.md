@@ -18,3 +18,5 @@ flowchart TD
  
     J --> K([Return JSON\nanswer + citations])
 ```
+
+> [File flow explanation by claude](https://claude.ai/share/f77cd302-411a-4553-8f97-2b2d242774ec)
