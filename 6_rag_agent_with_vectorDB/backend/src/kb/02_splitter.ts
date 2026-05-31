@@ -1,0 +1,32 @@
+// chunking -> bridge between raw Docs and useful RAG
+// chunks should be small but at the same time long enough
+
+import { Document } from "@langchain/core/documents";
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+
+const DEFAULT_CHUNK_SIZE = 800;
+const DEFAULT_CHUNK_OVERLAP_SIZE = 150;
+
+const splitter = new RecursiveCharacterTextSplitter({
+  chunkSize: DEFAULT_CHUNK_SIZE,
+  chunkOverlap: DEFAULT_CHUNK_OVERLAP_SIZE,
+});
+
+export async function splitDocuments(docs: Document[]): Promise<Document[]> {
+  if (!docs.length) return [];
+
+  const chunks = await splitter.splitDocuments(docs);
+
+  return chunks.map((chunk, index) => {
+    const base = chunk?.metadata ?? {};
+
+    return new Document({
+      pageContent: chunk.pageContent.trim(),
+      metadata: {
+        ...base,
+        source: base?.source ?? "unknown_source",
+        _chunkIndex: index,
+      },
+    });
+  });
+}
